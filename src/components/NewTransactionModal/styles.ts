@@ -1,12 +1,14 @@
-import styled from 'styled-components';
+import * as Dialog from '@radix-ui/react-dialog';
+import * as RadioGroup from '@radix-ui/react-radio-group';
+import styled, { css } from 'styled-components';
 
-export const Overlay = styled.div`
+export const Overlay = styled(Dialog.Overlay)`
   background-color: rgba(0, 0, 0, 0.75);
   position: fixed;
   inset: 0;
 `;
 
-export const Content = styled.div`
+export const Content = styled(Dialog.Content)`
   width: 32rem;
   padding: 2.5rem 3rem;
   border-radius: 6px;
@@ -49,6 +51,12 @@ export const Content = styled.div`
       }
     }
 
+    .transaction_type {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
     button[type='submit'] {
       padding: 1rem 2rem;
       border: none;
@@ -64,5 +72,58 @@ export const Content = styled.div`
         background-color: ${({ theme }) => theme['green-700']};
       }
     }
+  }
+`;
+
+interface TransactionTypeButtonProps {
+  value: 'income' | 'expense';
+}
+
+export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButtonProps>`
+  width: 50%;
+  padding: 1rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background-color: ${({ theme }) => theme['gray-700']};
+  color: ${({ theme }) => theme['gray-300']};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.1s, color 0.1s;
+  ${({ theme, value }) => {
+    switch (value) {
+      case 'income':
+        return css`
+          &[data-state='unchecked'] {
+            svg {
+              color: ${theme['green-300']};
+            }
+          }
+
+          &[data-state='checked'] {
+            background-color: ${theme['green-700']};
+            color: ${theme['white']};
+          }
+        `;
+      case 'expense':
+        return css`
+          &[data-state='unchecked'] {
+            svg {
+              color: ${theme['red-300']};
+            }
+          }
+
+          &[data-state='checked'] {
+            background-color: ${theme['red-700']};
+            color: ${theme['white']};
+          }
+        `;
+    }
+  }}
+
+  &:hover {
+    background-color: ${({ theme }) => theme['gray-600']};
   }
 `;
