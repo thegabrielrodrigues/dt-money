@@ -1,5 +1,6 @@
 import Logo from '@/assets/logo.svg';
 
+import { NewTransactionModal } from '../NewTransactionModal';
 import { HeaderContainer, NewTransactionButton } from './styles';
 
 export function Header() {
@@ -8,7 +9,9 @@ export function Header() {
       <div className="layout">
         <img src={Logo} />
 
-        <NewTransactionButton>Nova transação</NewTransactionButton>
+        <NewTransactionModal>
+          <NewTransactionButton>Nova transação</NewTransactionButton>
+        </NewTransactionModal>
       </div>
     </HeaderContainer>
   );
