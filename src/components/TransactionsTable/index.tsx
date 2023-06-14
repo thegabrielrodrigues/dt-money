@@ -1,23 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 
-import { TransactionDTO } from '@/dtos/TransactionDTO';
-import { env } from '@/environment/env';
+import { TransactionsContext } from '@/contexts/TransactionsContext';
 
 import { PriceHighlight, TransactionsTableContainer } from './styles';
 
 export function TransactionsTable() {
-  const [transactions, setTransactions] = useState<TransactionDTO[]>([]);
-
-  async function fetchTransactions() {
-    const response = await fetch(`${env.API_URL}/transactions`);
-    const data = await response.json();
-
-    setTransactions(data);
-  }
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
+  const { transactions } = useContext(TransactionsContext);
 
   return (
     <TransactionsTableContainer>
