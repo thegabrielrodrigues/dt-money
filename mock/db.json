@@ -6,7 +6,7 @@
       "price": 12000,
       "type": "income",
       "category": "Venda",
-      "createdAt": "13/04/2022"
+      "createdAt": "2022-04-13T03:00:00.000Z"
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "price": 59,
       "type": "expense",
       "category": "Alimentação",
-      "createdAt": "10/04/2022"
+      "createdAt": "2022-04-10T03:00:00.000Z"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "price": 1200,
       "type": "expense",
       "category": "Casa",
-      "createdAt": "27/03/2022"
+      "createdAt": "2022-03-27T03:00:00.000Z"
     }
   ]
 }
