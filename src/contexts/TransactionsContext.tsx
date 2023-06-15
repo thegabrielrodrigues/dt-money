@@ -5,6 +5,7 @@ import { env } from '@/environment/env';
 
 interface TransactionsContextType {
   transactions: TransactionDTO[];
+  fetchTransactions: (query?: string) => void;
 }
 
 interface TransactionsContextProviderProps {
@@ -16,8 +17,14 @@ export const TransactionsContext = createContext({} as TransactionsContextType);
 export function TransactionsContextProvider({ children }: TransactionsContextProviderProps) {
   const [transactions, setTransactions] = useState<TransactionDTO[]>([]);
 
-  async function fetchTransactions() {
-    const response = await fetch(`${env.API_URL}/transactions`);
+  async function fetchTransactions(query?: string) {
+    const url = new URL(`${env.API_URL}/transactions`);
+
+    if (query) {
+      url.searchParams.append('q', query);
+    }
+
+    const response = await fetch(url);
     const data = await response.json();
 
     setTransactions(data);
@@ -27,5 +34,5 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
     fetchTransactions();
   }, []);
 
-  return <TransactionsContext.Provider value={{ transactions }}>{children}</TransactionsContext.Provider>;
+  return <TransactionsContext.Provider value={{ transactions, fetchTransactions }}>{children}</TransactionsContext.Provider>;
 }
