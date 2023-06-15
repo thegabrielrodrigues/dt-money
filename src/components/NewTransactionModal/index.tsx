@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,6 +6,8 @@ import { ArrowCircleDown, ArrowCircleUp, X } from '@phosphor-icons/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { z } from 'zod';
+
+import { TransactionsContext } from '@/contexts/TransactionsContext';
 
 import { Content, Overlay, TransactionTypeButton } from './styles';
 
@@ -23,7 +25,9 @@ const newTransactionModalSchema = z.object({
 });
 
 export function NewTransactionModal({ children }: NewTransactionModalProps) {
-  const { register, formState, handleSubmit, control } = useForm<NewTransactionModalSchemaType>({
+  const { createNewTransaction } = useContext(TransactionsContext);
+
+  const { register, formState, handleSubmit, reset, control } = useForm<NewTransactionModalSchemaType>({
     resolver: zodResolver(newTransactionModalSchema),
     defaultValues: {
       description: '',
@@ -33,8 +37,10 @@ export function NewTransactionModal({ children }: NewTransactionModalProps) {
     },
   });
 
-  function handleCreateNewTransaction(data: NewTransactionModalSchemaType) {
-    console.log(data);
+  async function handleCreateNewTransaction(data: NewTransactionModalSchemaType) {
+    createNewTransaction(data);
+
+    reset();
   }
 
   return (
