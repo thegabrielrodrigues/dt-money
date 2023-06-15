@@ -35,19 +35,28 @@ export const Content = styled(Dialog.Content)`
     flex-direction: column;
     gap: 1rem;
 
-    input {
-      padding: 1rem;
-      border: none;
-      border-radius: 6px;
-      background-color: ${({ theme }) => theme['gray-900']};
-      color: ${({ theme }) => theme['gray-300']};
+    div {
+      input {
+        width: 100%;
+        padding: 1rem;
+        border: none;
+        border-radius: 6px;
+        background-color: ${({ theme }) => theme['gray-900']};
+        color: ${({ theme }) => theme['gray-300']};
 
-      &:focus {
-        box-shadow: 0 0 0 1px ${({ theme }) => theme['green-300']};
+        &:focus {
+          box-shadow: 0 0 0 1px ${({ theme }) => theme['green-300']};
+        }
+
+        &::placeholder {
+          color: ${({ theme }) => theme['gray-500']};
+        }
       }
 
-      &::placeholder {
-        color: ${({ theme }) => theme['gray-500']};
+      p {
+        margin-top: 0.3rem;
+        color: ${({ theme }) => theme['red-500']};
+        font-size: 0.85rem;
       }
     }
 
