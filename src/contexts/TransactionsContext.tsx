@@ -1,4 +1,6 @@
-import { ReactNode, createContext, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
+
+import { createContext } from 'use-context-selector';
 
 import { TransactionDTO } from '@/dtos/TransactionDTO';
 import { api } from '@/lib/axios';
@@ -25,7 +27,7 @@ export const TransactionsContext = createContext({} as TransactionsContextType);
 export function TransactionsContextProvider({ children }: TransactionsContextProviderProps) {
   const [transactions, setTransactions] = useState<TransactionDTO[]>([]);
 
-  async function fetchTransactions(query?: string) {
+  const fetchTransactions = useCallback(async (query?: string) => {
     const { data } = await api.get('/transactions', {
       params: {
         q: query,
@@ -33,14 +35,14 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
     });
 
     setTransactions(data);
-  }
+  }, []);
 
-  async function createNewTransaction(data: CreateNewTransactionDTO) {
+  const createNewTransaction = useCallback(async (data: CreateNewTransactionDTO) => {
     const formattedData = { ...data, createdAt: new Date().toISOString() };
 
     await api.post('/transactions', formattedData);
     fetchTransactions();
-  }
+  }, []);
 
   useEffect(() => {
     fetchTransactions();

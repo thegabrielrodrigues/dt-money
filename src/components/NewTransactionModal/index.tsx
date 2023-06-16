@@ -1,10 +1,11 @@
-import { ReactNode, useContext } from 'react';
+import { ReactNode } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowCircleDown, ArrowCircleUp, X } from '@phosphor-icons/react';
 import * as Dialog from '@radix-ui/react-dialog';
 import * as RadioGroup from '@radix-ui/react-radio-group';
+import { useContextSelector } from 'use-context-selector';
 import { z } from 'zod';
 
 import { TransactionsContext } from '@/contexts/TransactionsContext';
@@ -25,7 +26,7 @@ const newTransactionModalSchema = z.object({
 });
 
 export function NewTransactionModal({ children }: NewTransactionModalProps) {
-  const { createNewTransaction } = useContext(TransactionsContext);
+  const createNewTransaction = useContextSelector(TransactionsContext, (context) => context.createNewTransaction);
 
   const { register, formState, handleSubmit, reset, control } = useForm<NewTransactionModalSchemaType>({
     resolver: zodResolver(newTransactionModalSchema),
