@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { useContextSelector } from 'use-context-selector';
 
 import { TransactionsContext } from '@/contexts/TransactionsContext';
@@ -7,18 +5,13 @@ import { TransactionsContext } from '@/contexts/TransactionsContext';
 import { PaginationContainer, PaginationIndexButton } from './styles';
 
 export function Pagination() {
-  const [pagination, setPagination] = useState<number>(1);
-
-  const fetchTransactions = useContextSelector(TransactionsContext, (context) => context.fetchTransactions);
+  const pagination = useContextSelector(TransactionsContext, (context) => context.pagination);
   const paginationIndexes = useContextSelector(TransactionsContext, (context) => context.paginationIndexes);
+  const onPaginationIndexesChange = useContextSelector(TransactionsContext, (context) => context.onPaginationIndexesChange);
 
   function handlePaginationIndexesChange(paginationIndex: number) {
-    setPagination(paginationIndex);
+    onPaginationIndexesChange(paginationIndex);
   }
-
-  useEffect(() => {
-    fetchTransactions(undefined, pagination);
-  }, [pagination]);
 
   return (
     <PaginationContainer>

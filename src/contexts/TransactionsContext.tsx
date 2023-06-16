@@ -16,6 +16,8 @@ interface TransactionsContextType {
   transactions: TransactionDTO[];
   fetchTransactions: (query?: string, pagination?: number) => void;
   createNewTransaction: (data: CreateNewTransactionDTO) => void;
+  onPaginationIndexesChange: (paginationIndex: number) => void;
+  pagination: number;
   paginationIndexes: number[];
 }
 
@@ -26,6 +28,7 @@ interface TransactionsContextProviderProps {
 export const TransactionsContext = createContext({} as TransactionsContextType);
 
 export function TransactionsContextProvider({ children }: TransactionsContextProviderProps) {
+  const [pagination, setPagination] = useState<number>(1);
   const [paginationIndexes, setPaginationIndexes] = useState<number[]>([]);
   const [transactions, setTransactions] = useState<TransactionDTO[]>([]);
 
@@ -56,7 +59,15 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
     const formattedData = { ...data, createdAt: new Date().toISOString() };
 
     await api.post('/transactions', formattedData);
-    fetchTransactions();
+
+    await fetchTransactions();
+    setPagination(1);
+  }, []);
+
+  const onPaginationIndexesChange = useCallback((paginationIndex: number) => {
+    setPagination(paginationIndex);
+
+    fetchTransactions(undefined, paginationIndex);
   }, []);
 
   useEffect(() => {
@@ -64,7 +75,9 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
   }, []);
 
   return (
-    <TransactionsContext.Provider value={{ transactions, fetchTransactions, createNewTransaction, paginationIndexes }}>
+    <TransactionsContext.Provider
+      value={{ transactions, fetchTransactions, createNewTransaction, onPaginationIndexesChange, pagination, paginationIndexes }}
+    >
       {children}
     </TransactionsContext.Provider>
   );
