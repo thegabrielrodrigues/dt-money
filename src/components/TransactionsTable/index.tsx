@@ -1,33 +1,31 @@
+import { useContextSelector } from 'use-context-selector';
+
+import { TransactionsContext } from '@/contexts/TransactionsContext';
+import { dateFormatter, priceFormatter } from '@/utils/formatter';
+
 import { PriceHighlight, TransactionsTableContainer } from './styles';
 
 export function TransactionsTable() {
+  const transactions = useContextSelector(TransactionsContext, (context) => context.transactions);
+
   return (
     <TransactionsTableContainer>
       <tbody>
-        <tr>
-          <td width="50%">Desenvolvimento de site</td>
-          <td>
-            <PriceHighlight variant="income">R$ 12.0000,00</PriceHighlight>
-          </td>
-          <td>Venda</td>
-          <td>13/04/2022</td>
-        </tr>
-        <tr>
-          <td width="50%">Hamburguer</td>
-          <td>
-            <PriceHighlight variant="expense">- R$ 59,00</PriceHighlight>
-          </td>
-          <td>Alimentação</td>
-          <td>10/04/2022</td>
-        </tr>
-        <tr>
-          <td width="50%">Aluguel do apartamento</td>
-          <td>
-            <PriceHighlight variant="expense">- R$ 1.200,00</PriceHighlight>
-          </td>
-          <td>Casa</td>
-          <td>27/03/2022</td>
-        </tr>
+        {transactions.map((transaction) => {
+          const formattedDate = dateFormatter(new Date(transaction.createdAt));
+          const formattedPrice = `${transaction.type === 'expense' ? '- ' : ''}${priceFormatter(transaction.price)}`;
+
+          return (
+            <tr key={transaction.id}>
+              <td width="50%">{transaction.description}</td>
+              <td>
+                <PriceHighlight variant={transaction.type}>{formattedPrice}</PriceHighlight>
+              </td>
+              <td>{transaction.category}</td>
+              <td>{formattedDate}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </TransactionsTableContainer>
   );
