@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
 
+import { env } from '@/environment';
+
 export const SummaryContainer = styled.section`
   max-width: 70rem;
   padding: 0 1.5rem;
@@ -7,6 +9,7 @@ export const SummaryContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
+  overflow: auto;
 `;
 
 interface SummaryCardProps {
@@ -53,5 +56,11 @@ export const SummaryCard = styled.div<SummaryCardProps>`
 
   strong {
     font-size: 2rem;
+  }
+
+  @media screen and (max-width: ${env.BREAKPOINTS.TABLET}) {
+    strong {
+      font-size: 1.5rem;
+    }
   }
 `;

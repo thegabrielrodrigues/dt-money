@@ -1,12 +1,18 @@
+import { CalendarBlank, TagSimple } from '@phosphor-icons/react';
 import { useContextSelector } from 'use-context-selector';
 
 import { TransactionsContext } from '@/contexts/TransactionsContext';
+import { env } from '@/environment';
+import { useWindowDimension } from '@/hooks/useWindowDimension';
 import { dateFormatter, priceFormatter } from '@/utils/formatter';
 
 import { PriceHighlight, TransactionsTableContainer } from './styles';
 
 export function TransactionsTable() {
   const transactions = useContextSelector(TransactionsContext, (context) => context.transactions);
+  const windowDimension = useWindowDimension();
+
+  const isCellPhoneDevice = windowDimension.width <= Number(env.BREAKPOINTS.CELL_PHONE.replace('px', ''));
 
   return (
     <TransactionsTableContainer>
@@ -17,12 +23,18 @@ export function TransactionsTable() {
 
           return (
             <tr key={transaction.id}>
-              <td width="50%">{transaction.description}</td>
+              <td>{transaction.description}</td>
               <td>
                 <PriceHighlight variant={transaction.type}>{formattedPrice}</PriceHighlight>
               </td>
-              <td>{transaction.category}</td>
-              <td>{formattedDate}</td>
+              <td>
+                {isCellPhoneDevice && <TagSimple />}
+                {transaction.category}
+              </td>
+              <td>
+                {isCellPhoneDevice && <CalendarBlank />}
+                {formattedDate}
+              </td>
             </tr>
           );
         })}
