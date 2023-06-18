@@ -59,6 +59,8 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   }
 
   @media screen and (max-width: ${env.BREAKPOINTS.TABLET}) {
+    width: 17.5rem;
+
     strong {
       font-size: 1.5rem;
     }

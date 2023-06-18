@@ -21,6 +21,18 @@ export const TransactionsTableContainer = styled.table`
       &:last-child {
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
+
+        .trash_btn {
+          border: none;
+          background-color: transparent;
+          color: ${({ theme }) => theme['gray-500']};
+          line-height: 0;
+          cursor: pointer;
+
+          &:hover {
+            color: ${({ theme }) => theme['red-300']};
+          }
+        }
       }
     }
   }
@@ -50,14 +62,14 @@ export const TransactionsTableContainer = styled.table`
 
           &:nth-child(1) {
             color: ${({ theme }) => theme['gray-300']};
-            grid-column: 1 / 3;
+            grid-column: 1 / 2;
             grid-row: 1 / 2;
           }
 
           &:nth-child(2) {
             font-size: 1.25rem;
             font-weight: bold;
-            grid-column: 1 / 3;
+            grid-column: 1 / 2;
             grid-row: 2 / 3;
           }
 
@@ -76,6 +88,14 @@ export const TransactionsTableContainer = styled.table`
             grid-column: 2 / 3;
             grid-row: 3 / 4;
             gap: 0.25rem;
+          }
+
+          &:nth-child(5) {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-start;
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
           }
         }
       }

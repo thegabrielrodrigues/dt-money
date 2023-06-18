@@ -14,8 +14,9 @@ interface CreateNewTransactionDTO {
 
 interface TransactionsContextType {
   transactions: TransactionDTO[];
-  fetchTransactions: (query?: string, pagination?: number) => void;
+  fetchTransactions: (query?: string, pagination?: number) => void | any;
   createNewTransaction: (data: CreateNewTransactionDTO) => void;
+  removeTransaction: (transactionId: number, currentPaginationIndex: number) => void;
   onPaginationIndexesChange: (paginationIndex: number) => void;
   pagination: number;
   paginationIndexes: number[];
@@ -53,6 +54,8 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
 
     setTransactions(data);
     setPaginationIndexes([...paginationIndexes]);
+
+    return { data };
   }, []);
 
   const createNewTransaction = useCallback(async (data: CreateNewTransactionDTO) => {
@@ -62,6 +65,19 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
 
     await fetchTransactions();
     setPagination(1);
+  }, []);
+
+  const removeTransaction = useCallback(async (transactionId: number, currentPaginationIndex: number) => {
+    await api.delete(`/transactions/${transactionId}`);
+
+    const { data } = await fetchTransactions(undefined, currentPaginationIndex);
+
+    if (data.length === 0) {
+      const previousPage = currentPaginationIndex - 1;
+
+      setPagination(previousPage);
+      fetchTransactions(undefined, previousPage);
+    }
   }, []);
 
   const onPaginationIndexesChange = useCallback((paginationIndex: number) => {
@@ -76,7 +92,15 @@ export function TransactionsContextProvider({ children }: TransactionsContextPro
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, fetchTransactions, createNewTransaction, onPaginationIndexesChange, pagination, paginationIndexes }}
+      value={{
+        transactions,
+        fetchTransactions,
+        createNewTransaction,
+        removeTransaction,
+        onPaginationIndexesChange,
+        pagination,
+        paginationIndexes,
+      }}
     >
       {children}
     </TransactionsContext.Provider>

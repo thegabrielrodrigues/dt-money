@@ -17,7 +17,6 @@ const searchFormSchema = z.object({
 
 export function SearchForm() {
   const fetchTransactions = useContextSelector(TransactionsContext, (context) => context.fetchTransactions);
-
   const { register, handleSubmit } = useForm<SearchFormSchemaType>({
     resolver: zodResolver(searchFormSchema),
   });

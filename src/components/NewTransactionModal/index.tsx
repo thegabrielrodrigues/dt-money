@@ -27,7 +27,6 @@ const newTransactionModalSchema = z.object({
 
 export function NewTransactionModal({ children }: NewTransactionModalProps) {
   const createNewTransaction = useContextSelector(TransactionsContext, (context) => context.createNewTransaction);
-
   const { register, formState, handleSubmit, reset, control } = useForm<NewTransactionModalSchemaType>({
     resolver: zodResolver(newTransactionModalSchema),
     defaultValues: {
