@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import { env } from '@/environment';
+
 export const GlobalStyle = createGlobalStyle`
   * {
     padding: 0;
@@ -20,5 +22,11 @@ export const GlobalStyle = createGlobalStyle`
 
   :focus {
     outline: none;
+  }
+
+  @media screen and (max-width: ${env.BREAKPOINTS.TABLET}) {
+    body, input, textarea, button {
+      font-size: 87.5% !important;
+    }
   }
 `;
