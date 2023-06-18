@@ -7,7 +7,7 @@
 <h4 align="center">
 
     🚧 DT-Money💲
-    🚧 Em Desenvolvimento 🔨
+    🚧 Finalizado 🦾
 </h4>
 
 <br>
@@ -19,16 +19,26 @@ O DT-Money é uma aplicação criada em React que tem o intuito de ajudar no con
 <br>
 
 ## ⚙️ Funcionalidades
-- [ ] visualizar o resumo de transações
-- [ ] adicionar uma nova transação
-- [ ] remover uma transação
+- [x] visualizar o resumo de transações
+- [x] pesquisar transações
+- [x] adicionar uma nova transação
+- [x] remover uma transação
+- [x] obtenção de dados com paginação
 
 ---
 <br>
 
 ## 🎨 Layout
+
+### Web
 <div align="center">
-  <img alt="DT-Money" src="./assets/dt-money.png">
+  <img alt="DT-Money" src="./assets/web-dt-money.png">
+</div>
+
+### Mobile
+<div align="center">
+  <img alt="DT-Money" src="./assets/mobile-dt-money.png" style="height: 500px; margin: 5px;">
+  <img alt="DT-Money - Form" src="./assets/mobile-dt-money-form.png" style="height: 500px; margin: 5px;">
 </div>
 
 ---
