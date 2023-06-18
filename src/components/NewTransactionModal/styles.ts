@@ -2,6 +2,8 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import styled, { css } from 'styled-components';
 
+import { env } from '@/environment';
+
 export const Overlay = styled(Dialog.Overlay)`
   background-color: rgba(0, 0, 0, 0.75);
   position: fixed;
@@ -82,6 +84,27 @@ export const Content = styled(Dialog.Content)`
       }
     }
   }
+
+  @media screen and (max-width: ${env.BREAKPOINTS.CELL_PHONE}) {
+    width: 100%;
+    padding: 1.5rem;
+    top: unset;
+    left: 0;
+    bottom: 0;
+    transform: translate(0, 0);
+
+    form {
+      gap: 0.5rem;
+
+      .transaction_type {
+        margin-top: 0.5rem;
+      }
+
+      button[type='submit'] {
+        margin-top: 1.5rem;
+      }
+    }
+  }
 `;
 
 interface TransactionTypeButtonProps {
@@ -106,6 +129,10 @@ export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButt
       case 'income':
         return css`
           &[data-state='unchecked'] {
+            &:hover {
+              background-color: ${({ theme }) => theme['gray-600']};
+            }
+
             svg {
               color: ${theme['green-300']};
             }
@@ -119,6 +146,10 @@ export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButt
       case 'expense':
         return css`
           &[data-state='unchecked'] {
+            &:hover {
+              background-color: ${({ theme }) => theme['gray-600']};
+            }
+
             svg {
               color: ${theme['red-300']};
             }
@@ -131,8 +162,4 @@ export const TransactionTypeButton = styled(RadioGroup.Item)<TransactionTypeButt
         `;
     }
   }}
-
-  &:hover {
-    background-color: ${({ theme }) => theme['gray-600']};
-  }
 `;
